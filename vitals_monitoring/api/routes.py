@@ -13,8 +13,8 @@ api_bp = Blueprint(
 @api_bp.route("/ingest", methods=["GET"])
 def ingest():
     """Route to ingest data"""
-    now = datetime.now().strftime("%d-%m-%Y %H:%M:%S.%f")
-    now_hour = datetime.now().strftime("%d-%m-%Y-%H")
+    now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S%z")
+    now_hour = datetime.now().strftime("%Y-%m-%d-%H")
     patient_id = request.args.get("PatientID", default = 0, type = int)
     heart_rate = request.args.get("hr", default = 1, type = int)
     temperature = request.args.get("temp", default = 1, type = float)
@@ -37,7 +37,7 @@ def ingest():
 def api():
     n = request.args.get("count", default = 60, type = int)
     patient_id = request.args.get("patient_id", default = 0, type = int)
-    now_hour = datetime.now().strftime("%d-%m-%Y-%H")
+    now_hour = datetime.now().strftime("%Y-%m-%d-%H")
     filename = f"{now_hour}.csv"
 
     with open(filename, "r") as f:
@@ -59,7 +59,7 @@ def api():
 
 @api_bp.route("/patientlist", methods=["GET"])
 def patient_list():
-    now_hour = datetime.now().strftime("%d-%m-%Y-%H")
+    now_hour = datetime.now().strftime("%Y-%m-%d-%H")
     filename = f"{now_hour}.csv"
 
     with open(filename, "r") as f:
