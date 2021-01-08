@@ -1,4 +1,4 @@
-from escendo_2020 import create_app
+from vitals_monitoring import create_app
 
 app = create_app()
 

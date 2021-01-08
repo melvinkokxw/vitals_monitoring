@@ -7,12 +7,12 @@ from flask import current_app as app
 from flask import render_template, request
 
 # Blueprint Configuration
-ingest_bp = Blueprint(
-    "ingest_bp", __name__,
+home_bp = Blueprint(
+    "home_bp", __name__,
 )
 
 
-@ingest_bp.route("/", methods=["GET"])
+@home_bp.route("/", methods=["GET"])
 def home():
     """Route to POST data into"""
     now = datetime.now().strftime("%d-%m-%Y %H:%M:%S.%f")
@@ -32,4 +32,4 @@ def home():
         writer = csv.writer(f)
         writer.writerow(fields)
 
-    return None
+    return {"msg": "Created Successfully"}, 201
