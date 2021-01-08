@@ -1,4 +1,23 @@
-fetch("http://127.0.0.1:5000/api?patient_id=1")
+var patient_id = 1
+var select_element = document.getElementById("select-element")
+select_element.addEventListener("change", () => {
+    patient_id = select_element.value
+});
+
+fetch("http://127.0.0.1:5000/patientlist")
+    .then(response => response.json())
+    .then(data => {
+        var select_element = document.getElementById("select-element")
+        data.forEach(function (item, index) {
+            var option_element = document.createElement("option")
+            option_element.setAttribute("value", parseInt(item))
+            option_element.textContent = item
+            select_element.appendChild(option_element)
+        });
+    })
+    .then()
+
+fetch("http://127.0.0.1:5000/api?patient_id=" + String(patient_id))
     .then(response => response.json())
     .then(data => {
         var trace1 = {
@@ -24,15 +43,24 @@ fetch("http://127.0.0.1:5000/api?patient_id=1")
                 domain: [0, 1],
                 showticklabels: false
             },
-            yaxis: { domain: [0.6, 1] },
+            yaxis: {
+                domain: [0.6, 1],
+                title: {
+                    text: "HR",
+                }
+            },
             xaxis2: {
                 anchor: "y2",
                 domain: [0, 1]
             },
             yaxis2: {
                 anchor: "x2",
-                domain: [0, 0.4]
+                domain: [0, 0.4],
+                title: {
+                    text: "Temp",
+                }
             },
+            showlegend: false
         }
 
         var data_update = [trace1, trace2];
@@ -48,7 +76,7 @@ var cnt = 0;
 
 var interval = setInterval(function () {
 
-    fetch("http://127.0.0.1:5000/api")
+    fetch("http://127.0.0.1:5000/api?patient_id=" + String(patient_id))
         .then(response => response.json())
         .then(data => {
             var trace1 = {

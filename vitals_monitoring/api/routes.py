@@ -2,7 +2,7 @@ import csv
 import os
 from datetime import datetime
 
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 
 # Blueprint Configuration
 api_bp = Blueprint(
@@ -35,7 +35,8 @@ def ingest():
 
 @api_bp.route("/api", methods=["GET"])
 def api():
-    n=request.args.get("count", default = 60, type = int)
+    n = request.args.get("count", default = 60, type = int)
+    patient_id = request.args.get("patient_id", default = 0, type = int)
     now_hour = datetime.now().strftime("%d-%m-%Y-%H")
     filename = f"{now_hour}.csv"
 
@@ -43,7 +44,8 @@ def api():
         reader = csv.reader(f,delimiter = ",")
         data = list(reader)
         row_count = len(data)
-    
+
+    data = [row for row in data if int(row[1])==patient_id]
     data = data[row_count-n:]
     
     response = {
@@ -54,6 +56,19 @@ def api():
     }
 
     return response
+
+@api_bp.route("/patientlist", methods=["GET"])
+def patient_list():
+    now_hour = datetime.now().strftime("%d-%m-%Y-%H")
+    filename = f"{now_hour}.csv"
+
+    with open(filename, "r") as f:
+        reader = csv.reader(f,delimiter = ",")
+        data = list(reader)
+
+    patient_list = list(set(column(data, 1)))
+
+    return jsonify(patient_list)
 
 def column(matrix, i):
     return [row[i] for row in matrix]

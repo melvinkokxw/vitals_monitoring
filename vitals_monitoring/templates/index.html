@@ -2,15 +2,26 @@
 
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="styles.css") }}">
 </head>
 
 <body>
-    <div class="navbar"><span>Vitals Monitoring</span></div>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">Vitals Monitoring</span>
+            <form class="d-flex">
+                <select class="form-select" aria-label="Default select example" id="select-element">
+                </select>
+            </form>
+        </div>
+    </nav>
     <div id="wrapper">
         <div id="chart"></div>
         <script src="{{ url_for("static", filename="main.js") }}"></script>
     </div>
-    </body>
+</body>
+
 </html>
