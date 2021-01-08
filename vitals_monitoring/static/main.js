@@ -127,7 +127,5 @@ var interval = setInterval(function () {
             var data_update = [trace1, trace2];
 
             Plotly.newPlot("chart", data_update, layout);
-
-            if (++cnt === 100) clearInterval(interval);
         });
 }, 1000); 
