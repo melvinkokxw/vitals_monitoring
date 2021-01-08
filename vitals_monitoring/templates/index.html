@@ -3,43 +3,54 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="styles.css") }}">
 </head>
 
 <body>
     <div class="navbar"><span>Real-Time Chart with Plotly.js</span></div>
-    <div class="wrapper">
+    <div id="wrapper">
         <div id="chart"></div>
         <script>
-            // function getData() {
-            //     return Math.random();
-            // }  
-            // Plotly.plot('chart',[{
-            //     y:[getData()],
-            //     type:'line'
-            // }]);
-
-            // var cnt = 0;
-            // setInterval(function(){
-            //     Plotly.extendTraces('chart',{ y:[[getData()]]}, [0]);
-            //     cnt++;
-            //     if(cnt > 500) {
-            //         Plotly.relayout('chart',{
-            //             xaxis: {
-            //                 range: [cnt-500,cnt]
-            //             }
-            //         });
-            //     }
-            // },15);
             fetch("http://127.0.0.1:5000/api")
                 .then(response => response.json())
                 .then(data => {
-                    Plotly.newPlot('chart', [{
+                    var trace1 = {
                         x: data["timestamp"],
                         y: data["hr"],
-                        mode: 'scatter',
-                        line: { color: '#80CAF6' }
-                    }]);
+                        mode: "scatter",
+                        line: {
+                            color: "#80CAF6",
+                        }
+                    }
+
+                    var trace2 = {
+                        x: data["timestamp"],
+                        y: data["temp"],
+                        xaxis: "x2",
+                        yaxis: "y2",
+                        mode: "scatter",
+                        line: { color: "#DF56F1" }
+                    };
+
+                    var layout = {
+                        xaxis: {
+                            domain: [0, 1],
+                            showticklabels: false
+                        },
+                        yaxis: { domain: [0.6, 1] },
+                        xaxis2: {
+                            anchor: "y2",
+                            domain: [0, 1]
+                        },
+                        yaxis2: {
+                            anchor: "x2",
+                            domain: [0, 0.4]
+                        },
+                    }
+
+                    var data_update = [trace1, trace2];
+
+                    Plotly.newPlot("chart", data_update, layout);
 
                     if (++cnt === 100) clearInterval(interval);
                 });
@@ -53,20 +64,32 @@
                 fetch("http://127.0.0.1:5000/api")
                     .then(response => response.json())
                     .then(data => {
-                        var data_update = {
-                            x: [data["timestamp"]],
-                            y: [data["hr"]]
+                        var trace1 = {
+                            x: data["timestamp"],
+                            y: data["hr"],
+                            mode: "scatter",
+                            line: {
+                                color: "#80CAF6",
+                            }
+                        }
+
+                        var trace2 = {
+                            x: data["timestamp"],
+                            y: data["temp"],
+                            xaxis: "x2",
+                            yaxis: "y2",
+                            mode: "scatter",
+                            line: { color: "#DF56F1" }
                         };
 
-                        console.log(data_update)
+                        var data_update = [trace1, trace2];
 
-                        Plotly.update('chart', data_update)
+                        Plotly.update("chart", data_update)
 
                         if (++cnt === 100) clearInterval(interval);
                     });
             }, 1000); 
         </script>
     </div>
-</body>
-
+    </body>
 </html>
