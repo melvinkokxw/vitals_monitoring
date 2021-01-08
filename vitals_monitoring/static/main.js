@@ -1,4 +1,4 @@
-var patient_id = 1
+var patient_id
 var select_element = document.getElementById("select-element")
 select_element.addEventListener("change", () => {
     patient_id = select_element.value
@@ -15,7 +15,9 @@ fetch("http://127.0.0.1:5000/patientlist")
             select_element.appendChild(option_element)
         });
     })
-    .then()
+    .then(() => {
+        patient_id = select_element.value
+    })
 
 fetch("http://127.0.0.1:5000/api?patient_id=" + String(patient_id))
     .then(response => response.json())
