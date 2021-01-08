@@ -31,7 +31,7 @@ def ingest():
         writer = csv.writer(f)
         writer.writerow(fields)
 
-    return {"msg": "Created Successfully"}, 201
+    return jsonify({"msg": "Created Successfully"}), 201
 
 @api_bp.route("/api", methods=["GET"])
 def api():
@@ -55,7 +55,7 @@ def api():
         "temp": column(data, 3)
     }
 
-    return response
+    return jsonify(response)
 
 @api_bp.route("/patientlist", methods=["GET"])
 def patient_list():

@@ -97,9 +97,34 @@ var interval = setInterval(function () {
                 line: { color: "#DF56F1" }
             };
 
+            var layout = {
+                xaxis: {
+                    domain: [0, 1],
+                    showticklabels: false
+                },
+                yaxis: {
+                    domain: [0.6, 1],
+                    title: {
+                        text: "HR",
+                    }
+                },
+                xaxis2: {
+                    anchor: "y2",
+                    domain: [0, 1]
+                },
+                yaxis2: {
+                    anchor: "x2",
+                    domain: [0, 0.4],
+                    title: {
+                        text: "Temp",
+                    }
+                },
+                showlegend: false
+            }
+
             var data_update = [trace1, trace2];
 
-            Plotly.update("chart", data_update)
+            Plotly.newPlot("chart", data_update, layout);
 
             if (++cnt === 100) clearInterval(interval);
         });
